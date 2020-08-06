@@ -17,12 +17,8 @@ export class ProductCategoryMenuComponent implements OnInit {
   }
 
   listProductCategories() {
-    this.productService
-      .getProductsCategories()
-      .subscribe((data) => {
-        console.log(data);
-        this.productCategories = data;
-        
-      });
+    this.productService.getProductsCategories().subscribe((data) => {
+      this.productCategories = data;
+    });
   }
 }
