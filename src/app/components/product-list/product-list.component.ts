@@ -44,8 +44,12 @@ export class ProductListComponent implements OnInit {
     const theKeyword = this.route.snapshot.paramMap.get('keyword');
 
     this.productService
-      .searchProducts(theKeyword)
-      .subscribe((data) => (this.products = data));
+      .searchProductsPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        theKeyword
+      )
+      .subscribe(this.processResult());
   }
 
   handleListProducts() {
@@ -84,18 +88,16 @@ export class ProductListComponent implements OnInit {
       .subscribe(this.processResult());
   }
 
-
   processResult() {
-    return data => {
+    return (data) => {
       this.products = data._embedded.products;
       this.thePageNumber = data.page.number + 1;
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
-    }
+    };
   }
 
   updatePageSize(pageSize: number) {
     this.thePageSize = pageSize;
   }
-
 }
